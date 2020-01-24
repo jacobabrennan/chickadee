@@ -10,22 +10,21 @@ export default {
     follows: {},
     credentials: {},
     
-    //------------------------------------------------
+    //-- CRUD Users ----------------------------------
     async userGet(userId) {
         const userStored = this.users[userId];
         if(!userStored) { return null;}
         return userStored;
     },
-    async userCreate(userId) {
-        if(this.users[userId]) {
-            return null;
-        }
-        const userNew = {id: userId};
+    async userCreate(userId, email) {
+        const userNew = {
+            id: userId,
+            email: email,
+        };
         this.users[userId] = userNew;
-        return userId;
     },
     
-    //------------------------------------------------
+    //-- CRUD Credentials ----------------------------
     async credentialCreate(userId, hash) {
         if(!(await this.userGet(userId))) {
             throw new Error('Specified user does not exist');
@@ -34,19 +33,12 @@ export default {
         return true;
     },
     async credentialGet(userId) {
-        console.log('----', this.credentials)
-        if(!(await this.userGet(userId))) {
-            console.log(this.users)
-            throw new Error('Specified user does not exist');
-        }
         const hash = this.credentials[userId];
-        if(!hash) {
-            throw new Error('Specified user credentials do not exist');
-        }
+        if(!hash) { return null;}
         return hash;
     },
     
-    //------------------------------------------------
+    //-- CRUD Posts ----------------------------------
     async postGet(postId) {
         const postStored = this.posts[postId];
         if(!postStored) { return null;}
@@ -67,7 +59,7 @@ export default {
         return postNew.id;
     },
     
-    //------------------------------------------------
+    //-- CRUD Follows --------------------------------
     async followLinkAdd(userIdFollower, userIdTarget) {
         //
         if(!this.users[userIdFollower] || !this.users[userIdTarget]) {

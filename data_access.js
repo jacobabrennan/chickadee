@@ -3,26 +3,16 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import database_fake from './fake_database.js';
+import database_fake, { userNameCanonical } from './fake_database.js';
 
 //------------------------------------------------
-export function userNameCanonical(nameRaw) {
-    if(!nameRaw) {
-        throw new Error('invalid user name: empty string');
-    }
-    let nameStripped = nameRaw.replace(/[^a-z0-9]/gi,'');
-    if(nameStripped !== nameRaw) {
-        throw new Error('invalid user name: contains invalid characters');
-    }
-    return nameStripped.toLowerCase();
-}
 
 //------------------------------------------------
 export default {
-    async userGet(userName) {
-        let userId = userNameCanonical(userName);
-        return database_fake.userGet(userId);
-    },
+    // async userGet(userName) {
+    //     let userId = userNameCanonical(userName);
+    //     return database_fake.userGet(userId);
+    // },
     
     //------------------------------------------------
     async postGet(postId) {

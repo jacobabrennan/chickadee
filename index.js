@@ -7,8 +7,8 @@ import express from 'express';
 import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import sessionSecret from './secure/session_secret.js';
-import apiData from './data_api.js';
-import authentication from './authentication.js';
+import apiData from './api_data.js';
+import apiAuth from './api_auth.js';
 import errors from './errors.js';
 
 //-- Project Constants ---------------------------
@@ -30,7 +30,7 @@ server.listen(PORT, function () {
 //------------------------------------------------
 server.use('/rsc', express.static('public'));
 server.use('/data', apiData);
-server.use('/auth', authentication);
+server.use('/auth', apiAuth);
 
 //-- Error Handling ------------------------------
 server.use(errors.handler);

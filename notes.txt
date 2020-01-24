@@ -4,6 +4,7 @@
 
 //-- Basic Structure -----------------------------
 Express server without any best practices fleshed out.
+Bare bones react client in progress
 
 //-- User Management -----------------------------
 express router mounted at /auth
@@ -14,6 +15,23 @@ can logout
 
 //-- Data API (content) --------------------------
 express router mounted at /data
+
+//-- Client (react) ------------------------------
+Auth router handling registration and login
+    - only works on success
+    - needs error and failure handlers
+
+
+//== Major thing I could work on ===============================================
+
+structure client
+handle error states in client
+start work on posts
+start work on follows and vouches (trust count?)
+flesh out client auth (registration, login, logout)
+swap in actual database
+Privacy settings
+    block lists
 
 
 //== TO DO =====================================================================

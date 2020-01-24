@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 import express from 'express';
 import data from './data_access.js';
-import * as dataAuth from './data_access_authentication.js';
+import * as dataAuth from './data_auth.js';
 
 //-- Project Constants ---------------------------
 
@@ -20,7 +20,7 @@ let userIdA = dataAuth.credentialCreate('Herp', '12345');
 // console.log(data.followingGet(userIdA));
 
 //------------------------------------------------
-router.get('/updates', async function (request, response, next) {
+router.get('/feed', async function (request, response, next) {
     if(!request.session.userId) {
         response.status(500);
         next();
