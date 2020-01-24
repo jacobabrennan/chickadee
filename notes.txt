@@ -1,0 +1,21 @@
+
+
+//== What does this currently do? ==============================================
+
+//-- Basic Structure -----------------------------
+Express server without any best practices fleshed out.
+
+//-- User Management -----------------------------
+express router mounted at /auth
+user sessions present
+can register
+can login
+can logout
+
+//-- Data API (content) --------------------------
+express router mounted at /data
+
+
+//== TO DO =====================================================================
+
+bcryptjs should be swapped out for regular bcrypt. In order to do so, a stable version of nodejs must be in use. The current stable version, as of writing, has a poor workflow for using ES6 modules.
