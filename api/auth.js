@@ -12,9 +12,13 @@ handlers.
 
 //-- Dependencies --------------------------------
 import express from 'express';
-import * as dataAuth from './data_auth.js';
+import * as dataAuth from '../data/access_auth.js';
 
 //-- Project Constants ---------------------------
+const URL_USERID = '/userid';
+const URL_REGISTRATION = '/register';
+const URL_LOGIN = '/login';
+const URL_LOGOUT = '/logout';
 const ERROR_AUTH_COLLISION = 'Invalid Login: already logged in';
 const ERROR_AUTH_INVALID = 'Invalid Login: The user name or password were incorrect';
 const ERROR_AUTH_NOLOGIN = 'Cannot Log Out: You are not currently logged in'
@@ -23,32 +27,10 @@ const ERROR_AUTH_NOLOGIN = 'Cannot Log Out: You are not currently logged in'
 const router = express.Router();
 export default router;
 
-//-- Error Handling ------------------------------
-router.use(function (error, request, response, next) {
-    // Pass non-user errors upstream (logic, database, etc.)
-    switch(error) {
-        case ERROR_AUTH_COLLISION:
-        case dataAuth.ERROR_USERNAME_COLLISION:
-        case dataAuth.ERROR_USERNAME_BAD:
-        case dataAuth.ERROR_PASSWORD_BAD:
-            break;
-        default: {
-            next(error);
-            return;
-        }
-    }
-    // Respond with information about the user's authentication error.
-    let responseData = {
-        error: error,
-    };
-    response.json(responseData);
-});
-
-
 //== Route Handlers ============================================================
 
 //-- User Id (am I logged in?) -------------------
-router.get('/userid', async function (request, response, next) {
+router.get(URL_USERID, async function (request, response, next) {
     // Retrieve userId from session
     const userId = request.session.userId;
     // Attach userId if logged in
@@ -61,7 +43,7 @@ router.get('/userid', async function (request, response, next) {
 });
 
 //-- Registration --------------------------------
-router.post('/register', async function (request, response, next) {
+router.post(URL_REGISTRATION, async function (request, response, next) {
     // Retrieve user submitted credentials
     let userNameRequested = request.body.userName;
     let passwordRaw = request.body.password;
@@ -90,7 +72,7 @@ router.post('/register', async function (request, response, next) {
 });
 
 //-- Login ---------------------------------------
-router.post('/login', async function (request, response, next) {
+router.post(URL_LOGIN, async function (request, response, next) {
     let userId;
     // Retrieve user submitted credentials
     let userNameRaw = request.body.userName;
@@ -121,7 +103,7 @@ router.post('/login', async function (request, response, next) {
 });
 
 //-- Logout --------------------------------------
-router.post('/logout', async function (request, response, next) {
+router.post(URL_LOGOUT, async function (request, response, next) {
     // Cancel if not currently logged in
     if(!request.session.userId) {
         next(ERROR_AUTH_NOLOGIN);
@@ -132,4 +114,30 @@ router.post('/logout', async function (request, response, next) {
     // Respond to http request
     response.status(200);
     response.end();
+});
+
+
+//== Error Handling ============================================================
+
+//-- Error Handling ------------------------------
+router.use(function (error, request, response, next) {
+    // Pass non-user errors upstream (logic, database, etc.)
+    switch(error) { 
+        case ERROR_AUTH_COLLISION:
+        case ERROR_AUTH_INVALID:
+        case ERROR_AUTH_NOLOGIN:
+        case dataAuth.ERROR_USERNAME_COLLISION:
+        case dataAuth.ERROR_USERNAME_BAD:
+        case dataAuth.ERROR_PASSWORD_BAD:
+            break;
+        default: {
+            next(error);
+            return;
+        }
+    }
+    // Respond with information about the user's authentication error.
+    let responseData = {
+        error: error,
+    };
+    response.json(responseData);
 });

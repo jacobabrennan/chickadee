@@ -3,27 +3,15 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import database_fake, { userNameCanonical } from './fake_database.js';
+import database_fake from './fake_database.js';
+import {
+    userNameCanonical,
+} from './utilities.js';
 
 //------------------------------------------------
 
 //------------------------------------------------
 export default {
-    // async userGet(userName) {
-    //     let userId = userNameCanonical(userName);
-    //     return database_fake.userGet(userId);
-    // },
-    
-    //------------------------------------------------
-    async postGet(postId) {
-        return database_fake.postGet(postId);
-    },
-    async postCreate(userNameAuthor, postContent) {
-        let userIdAuthor = userNameCanonical(userNameAuthor);
-        return database_fake.postCreate(userIdAuthor, postContent);
-    },
-    
-    //------------------------------------------------
     async followLinkAdd(userNameFollower, userNameTarget) {
         let userIdFollower = userNameCanonical(userNameFollower);
         let userIdTarget = userNameCanonical(userNameTarget);

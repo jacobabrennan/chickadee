@@ -7,8 +7,8 @@ import express from 'express';
 import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import sessionSecret from './secure/session_secret.js';
-import apiData from './api_data.js';
-import apiAuth from './api_auth.js';
+import apiData from './api/data.js';
+import apiAuth from './api/auth.js';
 import errors from './errors.js';
 
 //-- Project Constants ---------------------------

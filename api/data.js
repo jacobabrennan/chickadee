@@ -4,8 +4,8 @@
 
 //-- Dependencies --------------------------------
 import express from 'express';
-import data from './data_access.js';
-import * as dataAuth from './data_auth.js';
+import data from '../data/access_follow.js';
+import * as dataAuth from '../data/access_auth.js';
 
 //-- Project Constants ---------------------------
 
@@ -14,7 +14,7 @@ const router = express.Router();
 export default router;
 
 //------------------------------------------------
-let userIdA = dataAuth.credentialCreate('Herp', '12345');
+let userIdA = dataAuth.authRegister('Herp', '12345', 'herp@derp.me');
 // let userIdB = data.userCreate("DERP")
 // console.log(data.followLinkAdd(userIdA, userIdB));
 // console.log(data.followingGet(userIdA));
