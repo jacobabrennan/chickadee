@@ -13,25 +13,43 @@ can register
 can login
 can logout
 
-//-- Data API (content) --------------------------
-express router mounted at /data
+//-- Post API (content) --------------------------
+express router mounted at /feed, to which a user agent to post new posts, get
+    a specific post, or get all posts.
+    Confusing, I know, and not very fleshed out
 
 //-- Client (react) ------------------------------
-Auth router handling registration and login
-    - only works on success
-    - needs error and failure handlers
+Auth router handling registration, login, and logout
+    - Doesn't handle network failures
+    - Doesn't display failure reasons to the user
+Basic post submission form
+    - Only handles submission of a body of text
 
 
-//== Major thing I could work on ===============================================
+//== Major things I could work on ==============================================
 
-structure client
+work on posts
+    update feed after successful post
+    allow posting of other media types, such as video, audio, links, or graphics
+    other post types, such as replies or quotes
 handle error states in client
-start work on posts
-start work on follows and vouches (trust count?)
-flesh out client auth (registration, login, logout)
+start work on follows
+start work on vouches (trust count?)
 swap in actual database
 Privacy settings
     block lists
+Change Password
+Display Name Preferences
+
+Who is allowed to reply? Why allow trolls to make bank by parasitizing users?
+
+Chickadee holidays?
+    like valentines day (but not) where you send special data-things to people
+        you admire
+
+Letters from staff
+    dev updates
+    financials, including detailed budget
 
 
 //== TO DO =====================================================================

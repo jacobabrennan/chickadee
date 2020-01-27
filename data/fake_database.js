@@ -3,6 +3,9 @@
 //==============================================================================
 
 //------------------------------------------------
+export const ERROR_NO_SUCH_USER = 'Invalid Reqest: specified user does not exist';
+
+//------------------------------------------------
 export default {
     users: {},
     posts: {},
@@ -37,27 +40,7 @@ export default {
         if(!hash) { return null;}
         return hash;
     },
-    
-    //-- CRUD Posts ----------------------------------
-    async postGet(postId) {
-        const postStored = this.posts[postId];
-        if(!postStored) { return null;}
-        return postStored;
-    },
-    async postCreate(userIdAuthor, postContent) {
-        //
-        if(!this.users[userIdAuthor]) {
-            return null;
-        }
-        //
-        const postNew = {
-            id: this.postCounter,
-            userIdAuthor: userIdAuthor,
-            content: postContent,
-        };
-        this.postCounter++;
-        return postNew.id;
-    },
+
     
     //-- CRUD Follows --------------------------------
     async followLinkAdd(userIdFollower, userIdTarget) {

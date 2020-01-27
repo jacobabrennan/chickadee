@@ -7,7 +7,7 @@ import express from 'express';
 import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import sessionSecret from './secure/session_secret.js';
-import apiData from './api/data.js';
+import apiFeed from './api/feed.js';
 import apiAuth from './api/auth.js';
 import errors from './errors.js';
 
@@ -29,9 +29,8 @@ server.listen(PORT, function () {
 
 //------------------------------------------------
 server.use('/rsc', express.static('public'));
-server.use('/data', apiData);
+server.use('/feed', apiFeed);
 server.use('/auth', apiAuth);
 
 //-- Error Handling ------------------------------
 server.use(errors.handler);
-  
