@@ -1,0 +1,28 @@
+
+
+#==============================================================================
+
+#=================================================
+type Query {
+    post(postId: String): Post
+    feed(userId: String): Feed!
+}
+type Mutation {
+    postCreate(text: String): Post
+}
+
+#=================================================
+type Post {
+    postId: Int!
+    userId: String!
+    text: String
+    created: String!
+}
+type Feed {
+    posts: [Post]!
+}
+
+#=================================================
+input PostData {
+    text: String
+}

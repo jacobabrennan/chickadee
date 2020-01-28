@@ -19,6 +19,7 @@ const URL_USERID = '/userid';
 const URL_REGISTRATION = '/register';
 const URL_LOGIN = '/login';
 const URL_LOGOUT = '/logout';
+const ERROR_AUTH_UNAUTHENTICATED = 'Not Authenticated: user not logged in';
 const ERROR_AUTH_COLLISION = 'Invalid Login: already logged in';
 const ERROR_AUTH_INVALID = 'Invalid Login: The user name or password were incorrect';
 const ERROR_AUTH_NOLOGIN = 'Cannot Log Out: You are not currently logged in'
@@ -26,6 +27,17 @@ const ERROR_AUTH_NOLOGIN = 'Cannot Log Out: You are not currently logged in'
 //------------------------------------------------
 const router = express.Router();
 export default router;
+
+//-- Authentication Check Middleware -------------
+router.requireAuthentication = function (request, response, next) {
+    const userId = request.session.userId;
+    if(!userId) {
+        console.log('Not Authenticated', userId);
+        throw ERROR_AUTH_UNAUTHENTICATED;
+    }
+    console.log('Authenticated', userId);
+    next();
+}
 
 //== Route Handlers ============================================================
 

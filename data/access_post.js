@@ -17,7 +17,7 @@ export async function postGet(postId) {
         .first();
 }
 export async function postCreate(userNameAuthor, postContent) {
-    let userIdAuthor = userNameCanonical(userNameAuthor);
+    const userIdAuthor = userNameCanonical(userNameAuthor);
     const postNew = {
         'userId': userIdAuthor,
         text: postContent.text,
@@ -25,8 +25,11 @@ export async function postCreate(userNameAuthor, postContent) {
     return await database('posts').insert(postNew);
 }
 export async function feedGet(userId) {
-    let userIdAuthor = userNameCanonical(userId);
-    return await database('posts')
+    const userIdAuthor = userNameCanonical(userId);
+    const posts = await database('posts')
         .select('postId', 'userId', 'text', 'created')
         .where({'userId': userIdAuthor});
+    return {
+        posts: posts,
+    };
 }
