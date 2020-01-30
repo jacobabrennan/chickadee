@@ -55,7 +55,7 @@ export default {
     //-- Feed ----------------------------------------
     async feedGet(query, request) {
         // Construct parameters
-        const userId = query.userId;
+        const userId = request.session.userId;
         // Retrieve Data
         const result = await dataPost.feedGet(userId);
         return result;

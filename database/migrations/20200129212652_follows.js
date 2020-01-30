@@ -23,6 +23,7 @@ exports.up = function(knex) {
             .references(FIELD_USERID)
             .inTable(TABLE_USERS)
             .notNullable();
+        table.unique([FIELD_FOLLOWER, FIELD_TARGET])
     });
 };
 exports.down = function(knex) {

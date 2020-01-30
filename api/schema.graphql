@@ -6,7 +6,8 @@
 type Query {
     userGet(userId: String!): User
     postGet(postId: String): Post
-    feedGet(userId: String): Feed!
+    feedGet: Feed!
+    # feedGet(userId: String): Feed!
     followersGet(userId: String!): [String!]!
 }
 type Mutation {
@@ -21,6 +22,8 @@ type User {
     userId: String
     name: String
     description: String
+    followers: Followers
+    
 }
 type Post {
     postId: Int!
@@ -30,6 +33,10 @@ type Post {
 }
 type Feed {
     posts: [Post!]!
+}
+type Followers {
+    count: Int!
+    userIds: [String!]!
 }
 
 #== Input Types ==================================

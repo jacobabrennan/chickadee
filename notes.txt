@@ -54,4 +54,5 @@ Letters from staff
 
 //== TO DO =====================================================================
 
+Resolve all questions marked "NOTE" in both repos
 bcryptjs should be swapped out for regular bcrypt. In order to do so, a stable version of nodejs must be in use. The current stable version, as of writing, has a poor workflow for using ES6 modules.
