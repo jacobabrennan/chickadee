@@ -1,17 +1,20 @@
 
 
-#==============================================================================
+#== GraphQL Schema ============================================================
 
-#=================================================
+#== Root Queries and Mutations ===================
 type Query {
-    post(postId: String): Post
-    feed(userId: String): Feed!
+    postGet(postId: String): Post
+    feedGet(userId: String): Feed!
+    followersGet(userId: String!): [String!]!
 }
 type Mutation {
     postCreate(text: String): Post
+    followLinkAdd(targetId: String!): Int!
+    followLinkRemove(targetId: String!): Int!
 }
 
-#=================================================
+#== Data Types ===================================
 type Post {
     postId: Int!
     userId: String!
@@ -19,10 +22,10 @@ type Post {
     created: String!
 }
 type Feed {
-    posts: [Post]!
+    posts: [Post!]!
 }
 
-#=================================================
+#== Input Types ==================================
 input PostData {
     text: String
 }

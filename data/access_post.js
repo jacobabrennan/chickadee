@@ -17,18 +17,29 @@ export async function postGet(postId) {
         .first();
 }
 export async function postCreate(userNameAuthor, postContent) {
-    const userIdAuthor = userNameCanonical(userNameAuthor);
+    //
     const postNew = {
-        'userId': userIdAuthor,
+        'userId': userNameCanonical(userNameAuthor),
         text: postContent.text,
     };
-    return await database('posts').insert(postNew);
+    // Doesn't work with sqlite3
+    // const result = await database('posts')
+    //     .returning(['postId', 'userId', 'text', 'created'])
+    //     .insert(postNew);
+    const postId = await database('posts').insert(postNew);
+    const result = await postGet(postId[0]);
+    //
+    return result;
 }
 export async function feedGet(userId) {
     const userIdAuthor = userNameCanonical(userId);
+    // const posts = await database('posts')
+    //     .select('postId', 'userId', 'text', 'created')
+    //     .where({'userId': userIdAuthor});
     const posts = await database('posts')
+        .crossJoin('follows', 'follows.targetId', '=', 'posts.userId')
         .select('postId', 'userId', 'text', 'created')
-        .where({'userId': userIdAuthor});
+        .where({'follows.followerId': userIdAuthor});
     return {
         posts: posts,
     };

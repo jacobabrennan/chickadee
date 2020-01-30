@@ -35,11 +35,11 @@ work on posts
 handle error states in client
 start work on follows
 start work on vouches (trust count?)
-swap in actual database
 Privacy settings
     block lists
 Change Password
 Display Name Preferences
+swap in better database
 
 Who is allowed to reply? Why allow trolls to make bank by parasitizing users?
 
