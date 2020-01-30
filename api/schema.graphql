@@ -4,17 +4,24 @@
 
 #== Root Queries and Mutations ===================
 type Query {
+    userGet(userId: String!): User
     postGet(postId: String): Post
     feedGet(userId: String): Feed!
     followersGet(userId: String!): [String!]!
 }
 type Mutation {
+    userUpdate(name: String, description: String): User!
     postCreate(text: String): Post
     followLinkAdd(targetId: String!): Int!
     followLinkRemove(targetId: String!): Int!
 }
 
 #== Data Types ===================================
+type User {
+    userId: String
+    name: String
+    description: String
+}
 type Post {
     postId: Int!
     userId: String!

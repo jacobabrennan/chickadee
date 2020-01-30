@@ -3,7 +3,6 @@
 //==============================================================================
 
 //-- Dependencies --------------------------------
-import database_fake from './fake_database.js';
 import database from '../database/index.js';
 import { userNameCanonical } from './utilities.js';
 
@@ -41,5 +40,8 @@ export async function followersGet(userName) {
 }
 export async function followingGet(userName) {
     let userId = userNameCanonical(userName);
-    return database_fake.followingGet(userId);
+    const result = await database('follows')
+        .select('targetId')
+        .where({followerId: userId});
+    return result.map(data => data.targetId);
 }
