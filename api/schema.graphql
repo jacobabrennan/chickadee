@@ -5,7 +5,7 @@
 #== Root Queries and Mutations ===================
 type Query {
     userGet(userId: String!): User
-    postGet(postId: String): PostContext
+    postGet(postId: String): Feed!
     feedGet(userId: String): Feed!
     userActivityGet(userId: String!): Feed!
     # feedGet(userId: String): Feed!
@@ -13,7 +13,7 @@ type Query {
 }
 type Mutation {
     userUpdate(name: String, description: String): User!
-    postCreate(text: String): PostContext
+    postCreate(text: String): Feed!
     followLinkAdd(targetId: String!): Boolean!
     followLinkRemove(targetId: String!): Boolean!
 }
@@ -32,17 +32,14 @@ type Post {
     created: String!
 }
 type Feed {
-    postContexts: [PostContext!]!
+    posts: [Post!]!
+    userContexts: [User!]!
 }
 type Followers {
     count: Int!
     following: Boolean!
     follows: Boolean!
     userIds: [String!]!
-}
-type PostContext {
-    post: Post!
-    user: User!
 }
 
 #== Input Types ==================================

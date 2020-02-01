@@ -34,6 +34,23 @@ export default {
     },
 }
 
+
+/*
+-home:
+    -get feed: [PostContext!]!
+    make post (mutate): PostContext
+-user profile view:
+    get user info: ????
+    -get user feed: [PostContext!]!
+    follow (mutate): Boolean!
+    unfollow (mutate): Boolean!
+edit profile view:
+    get profile: User!
+    set profile (mutate): User!
+-view post:
+    -get post: [postContext!]!
+*/
+
 //-- Users ---------------------------------------
 async function userGet(parent, args, context, info) {
     // NOTE: This is such a mess...
@@ -97,11 +114,32 @@ async function feedGet(parent, args, context, info) {
     // Construct parameters
     const userId = context.request.session.userId;
     // Retrieve Data
-    const result = await dataPost.feedGet(userId);
-    const postContexts = result.posts.map(function (post) {
-        return {post: post};
+    const rows = await database('follows')
+        .where({'follows.followerId': userId})
+        .join('users', 'follows.targetId', '=', 'users.userId')
+        .crossJoin('posts', 'posts.authorId', '=', 'users.userId')
+        .select(
+            'posts.postId', 'posts.authorId', 'posts.text', 'posts.created',
+            'users.name', 'users.userId',
+        );
+    //
+    const postUserIds = new Set()
+    const feedData = {posts: [], userContexts: []}
+    rows.forEach(function (row) {
+        feedData.posts.push({
+            postId: row.postId,
+            authorId: row.authorId,
+            text: row.text,
+            created: row.created,
+        });
+        if(postUserIds.has(row.userId)) { return;}
+        postUserIds.add(row.userId);
+        feedData.userContexts.push({
+            userId: row.userId,
+            name: row.name,
+        });
     });
-    return {postContexts: postContexts};
+    return feedData;
 }
 async function userActivityGet(parent, args, context, info) {
     const userId = args.userId;
