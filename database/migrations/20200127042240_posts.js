@@ -9,6 +9,7 @@
 //-- Project Constants ---------------------------
 const TABLE_POSTS = 'posts';
 const FIELD_POSTID = 'postId';
+const FIELD_AUTHORID = 'authorId';
 const FIELD_CREATED = 'created';
 const FIELD_CONTENT_TEXT = 'text';
 const LIMIT_CONTENT_TEXT = 255;
@@ -20,7 +21,7 @@ const FIELD_USERID = 'userId';
 exports.up = function(knex) {
     return knex.schema.createTable(TABLE_POSTS, table => {
         table.increments(FIELD_POSTID);
-        table.string(FIELD_USERID)
+        table.string(FIELD_AUTHORID)
             .references(FIELD_USERID)
             .inTable(TABLE_USERS)
             .notNullable();

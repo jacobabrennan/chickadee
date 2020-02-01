@@ -28,18 +28,29 @@ Basic post submission form
 
 //== Major things I could work on ==============================================
 
-work on posts
+work on posts:
     update feed after successful post
     allow posting of other media types, such as video, audio, links, or graphics
-    other post types, such as replies or quotes
+        other post types, such as replies or quotes
+    pull userdata with post list
+    reply and quote
+    tags (hashtags)
 handle error states in client
-start work on follows
 start work on vouches (trust count?)
 Privacy settings
     block lists
 Change Password
 Display Name Preferences
 swap in better database
+Search Function for users, text content, and tags
+another round of client styling and cleanup
+Client side validation of stuff:
+    Settings:
+        Name
+        Description
+Links to:
+    Own profile
+    Settings
 
 Who is allowed to reply? Why allow trolls to make bank by parasitizing users?
 
@@ -50,6 +61,82 @@ Chickadee holidays?
 Letters from staff
     dev updates
     financials, including detailed budget
+
+
+//== Known Endpoints ===========================================================
+
+//-- Current Iteration Goals ---------------------
+-client global:
+    get authentication: ????
+-home:
+    -get feed: [PostContext!]!
+    make post (mutate): PostContext
+-user profile view:
+    get user info: ????
+    -get user feed: [PostContext!]!
+    follow (mutate): Boolean!
+    unfollow (mutate): Boolean!
+edit profile view:
+    get profile: User!
+    set profile (mutate): User!
+-view post:
+    -get post: [postContext!]!
+
+PostContext:
+    post
+        postId
+        text
+        (other fields eventually, like 'photoUrls' or 'quoteId')
+    user
+        userId
+        name
+        portraitUrl
+
+Post
+    postId
+    authorId
+    text
+    created
+    (other fields eventually, like 'photoUrls' or 'quoteId')
+
+User
+    userId
+    name
+    description
+    portraitUrl
+    follows
+        followers
+        following
+        follows
+
+
+//-- Future Iteration Goals ----------------------
+-client global:
+    get authentication: ????
+    -get messages (subscription): ????
+    -get notifications (subscription): ????
+-home:
+    -get feed (subscription): [postContext!]!
+    make post (mutate): postContext
+-user profile view:
+    get user info: ????
+    -get user feed (subscription): [postContext!]!
+    follow (mutate): Boolean!
+    unfollow (mutate): Boolean!
+edit profile view:
+    get profile: userProfile!
+    set profile (mutate): userProfile!
+-view post:
+    -get post: [postContext!]!
+-messages view:
+    -get messages (subscription): ????
+    -get message: ????
+    -send message (mutate): ????
+    -set message read (mutate): ????
+-notifications view:
+    -get notifications (subscription): ????
+    -get notification: ????
+    -set notification read (mutate): ????
 
 
 //== TO DO =====================================================================

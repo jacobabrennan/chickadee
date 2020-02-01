@@ -8,8 +8,8 @@ import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import sessionSecret from './secure/session_secret.js';
 import apiAuth from './api/auth.js';
-import apiData from './api/data.js';
 import errors from './errors.js';
+import graphQLServer from './api/apollo.js';
 
 //-- Project Constants ---------------------------
 const PORT = 7231;
@@ -30,10 +30,8 @@ server.listen(PORT, function () {
 //------------------------------------------------
 server.use('/rsc', express.static('public'));
 server.use('/auth', apiAuth);
-server.use('/data', [
-    apiAuth.requireAuthentication,
-    apiData,
-]);
+server.use('/data', apiAuth.requireAuthentication);
+graphQLServer.applyMiddleware({app: server, path: '/data'});
 
 //-- Error Handling ------------------------------
 server.use(errors.handler);
