@@ -19,14 +19,3 @@ export async function userGet(userId, selectionFields) {
     }
     return result;
 }
-
-export async function userUpdate(userId, userData) {
-    try {
-        await database('users')
-            .where({userId: userId})
-            .update(userData);
-    } catch(error) {
-        return false;
-    }
-    return true;
-}

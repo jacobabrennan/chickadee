@@ -28,29 +28,51 @@ Basic post submission form
 
 //== Major things I could work on ==============================================
 
-work on posts:
-    update feed after successful post
+Basic Process:
+    Button to load view
+    View renders components
+    components make apollo query (useQuery)
+    apollo makes graphQL query
+    resolver makes SQL query, structures data
+    component rerenders data
+    rinse, repeat
+
+
+Client Themeing / Branding
+Client styling, structure, & clean-up
+Post Improvements:
++   reply and quote
     allow posting of other media types, such as video, audio, links, or graphics
         other post types, such as replies or quotes
-    pull userdata with post list
-    reply and quote
+    update feed after successful post
     tags (hashtags)
-handle error states in client
-start work on vouches (trust count?)
-Privacy settings
-    block lists
-Change Password
-Display Name Preferences
-swap in better database
+Handle error states in client
+Loading State for:
+    Image Upload
++ Follows:
+    View list of followers in detail
+    View list of following in detail
+    (classes for displaying user details,
+    queries and resolvers for retrieving users)
+Vouching System (trust count?):
+    View vouching user
+    View vouched users
 Search Function for users, text content, and tags
-another round of client styling and cleanup
 Client side validation of stuff:
     Settings:
         Name
         Description
-Links to:
-    Own profile
-    Settings
+User Permissions:
+    Inter-user viewing
+    bro, do you even vouch?
+Settings and Authentication:
+    Change Password
+    email validation
+Likes!?
+Privacy settings
+    block lists
+Generate smaller images automatically, for use beside posts
+Swap in better database
 
 Who is allowed to reply? Why allow trolls to make bank by parasitizing users?
 
@@ -142,4 +164,8 @@ edit profile view:
 //== TO DO =====================================================================
 
 Resolve all questions marked "NOTE" in both repos
+Protect against common attacks:
+    large string / file uploads
+    rate limiting / flood control
+Switch to better database (not sqlite3)
 bcryptjs should be swapped out for regular bcrypt. In order to do so, a stable version of nodejs must be in use. The current stable version, as of writing, has a poor workflow for using ES6 modules.

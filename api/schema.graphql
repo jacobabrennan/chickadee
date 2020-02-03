@@ -12,7 +12,7 @@ type Query {
     followersGet(userId: String!): [ID!]!
 }
 type Mutation {
-    userUpdate(name: String, description: String): User!
+    userUpdate(name: String, description: String, portrait: String): User!
     postCreate(text: String): Feed!
     followLinkAdd(targetId: String!): Boolean!
     followLinkRemove(targetId: String!): Boolean!
@@ -24,6 +24,7 @@ type User {
     name: String
     description: String
     followers: Followers
+    portraitUrl: String
 }
 type Post {
     postId: ID!
@@ -43,6 +44,6 @@ type Followers {
 }
 
 #== Input Types ==================================
-input PostData {
-    text: String
-}
+# input PostData {
+#     text: String
+# }
