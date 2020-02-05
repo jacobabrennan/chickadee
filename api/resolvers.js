@@ -9,13 +9,14 @@
     Note: Ok, I've basically given up on writing good SQL queries. Someone else
     can fix this up later. Time to put my brain on vacation and write some
     queries.
+
+    NOTE: Thrown errors in resolvers are currently sent to client. Don't do this
 */
 
 //-- Dependencies --------------------------------
 import fs from 'fs';
 import * as dataPost from '../data/access_post.js';
 import * as dataFollow from '../data/access_follow.js';
-import * as dataUser from '../data/access_user.js';
 import database from '../database/index.js';
 
 //------------------------------------------------
@@ -26,6 +27,7 @@ export default {
         postGet,
         feedGet,
         followersGet,
+        followsGet,
     },
     Mutation: {
         userUpdate,
@@ -54,28 +56,51 @@ edit profile view:
 
 //-- Users ---------------------------------------
 async function userGet(parent, args, context, info) {
-    // NOTE: This is such a mess...
     // Construct parameters
     const userId = context.request.session.userId;
     const targetId = args.userId;
-    const getData = ['userId','name','description','portraitUrl'];
     // Retrieve Data
-    const result = await dataUser.userGet(targetId, getData);
-    // Get follower Data 
-    result.followers = {
-        count: (await database('follows').count().where({
-            'targetId': targetId,
-        }))[0]['count(*)'],
-        following: (await database('follows').count().where({
-            'followerId': userId,
-            'targetId': targetId,
-        }))[0]['count(*)'],
-        follows: (await database('follows').count().where({
-            'followerId': targetId,
-            'targetId': userId,
-        }))[0]['count(*)'],
-    };
-    return result;
+    const row = await database('users')
+        .where({'userId': targetId})
+        .first()
+        .select('userId', 'name', 'description', 'portraitUrl')
+        .select(function () {
+            this.from('follows')
+                .where({'follows.targetId': userId})
+                .whereRaw('follows.followerId = users.userId', [])
+                .first().count().as('follows');
+        })
+        .select(function () {
+            this.from('follows')
+                .where({'follows.followerId': userId})
+                .whereRaw('follows.targetId = users.userId', [])
+                .first().count().as('following');
+        })
+        .select(function () {
+            this.from('follows')
+                .where({'follows.targetId': targetId})
+                .count().as('countFollowers');
+        })
+        .select(function () {
+            this.from('follows')
+                .where({'follows.followerId': targetId})
+                .count().as('countFollowing');
+        });
+    //
+    const followData = {
+        userId: row.userId,
+        name: row.name,
+        description: row.description,
+        portraitUrl: row.portraitUrl,
+        followers: {
+            countFollowers: row.countFollowers,
+            countFollowing: row.countFollowing,
+            follows: row.follows,
+            following: row.following,
+        }
+    }
+    //
+    return followData;
 }
 async function userUpdate(parent, args, context, info) {
     // NOTE: This needs actual security checks for submitted image data
@@ -97,10 +122,10 @@ async function userUpdate(parent, args, context, info) {
         const base64Prefix = 'data:image/png;base64,';
         if(portraitDataURL.indexOf(base64Prefix)) { throw "Invalid Portrait Data";}
         const portraitData = portraitDataURL.substring(22);
-        const portraitURL = `/rsc/portrait/${userId}.png`;
+        const portraitUrl = `/rsc/portrait/${userId}.png`;
         const portraitPath = `public/portrait/${userId}.png`;
         await fs.promises.writeFile(portraitPath, portraitData, 'base64')
-        updateData.portraitUrl = portraitURL;
+        updateData.portraitUrl = portraitUrl;
     }
     // Retrieve Data
     await database('users')
@@ -115,8 +140,28 @@ async function postGet(parent, args, context, info) {
     // Construct parameters
     const postId = args.postId;
     // Retrieve Data
-    const result = await dataPost.postGet(postId);
-    return result;
+    const row = await database('posts')
+        .where({'postId': postId})
+        .first()
+        .join('users', 'posts.authorId', '=', 'users.userId')
+        .select(
+            'posts.postId', 'posts.authorId', 'posts.text', 'posts.created',
+            'users.name', 'users.userId', 'users.portraitUrl',
+        );
+    //
+    return {
+        posts: [{
+            postId: row.postId,
+            authorId: row.authorId,
+            text: row.text,
+            created: row.created,
+        }],
+        userContexts: [{
+            userId: row.userId,
+            name: row.name,
+            portraitUrl: row.portraitUrl
+        }]
+    };
 }
 async function postCreate(parent, args, context, info) {
     // NOTE: Look into "batching" multiple SQL queries together
@@ -192,10 +237,82 @@ async function userActivityGet(parent, args, context, info) {
 //-- Followers -----------------------------------
 async function followersGet(parent, args, context, info) {
     // Construct parameters
-    const userId = args.userId;
-    // Retrieve Data
-    const result = await dataFollow.followersGet(userId);
-    return result;
+    const userId = context.request.session.userId;
+    const targetId = args.userId;
+    // Retrieve Data: "From all users that follow target, get their user info"
+    const rows = await database('follows')
+        .where({'follows.targetId': targetId})
+        .join('users', 'follows.followerId', '=', 'users.userId')
+        .select(
+            'users.userId', 'users.name', 'users.description', 'users.portraitUrl',
+        )
+        .select(function () {
+            this.from('follows')
+                .where({'follows.targetId': userId})
+                .whereRaw('follows.followerId = users.userId', [])
+                .first().count().as('follows');
+        })
+        .select(function () {
+            this.from('follows')
+                .where({'follows.followerId': userId})
+                .whereRaw('follows.targetId = users.userId', [])
+                .first().count().as('following');
+        });
+    // Construct GraphQL graph from SQL rows
+    const followers = rows.map(function (databaseRow) {
+        return {
+            userId: databaseRow.userId,
+            name: databaseRow.name,
+            description: databaseRow.description,
+            portraitUrl: databaseRow.portraitUrl,
+            followers: {
+                follows: databaseRow.follows,
+                following: databaseRow.following,
+            },
+        };
+    });
+    // Return followers data
+    return followers;
+}
+async function followsGet(parent, args, context, info) {
+    // NOTE: Look into 'clone' for portion of query shared with other resolvers
+    // Construct parameters
+    const userId = context.request.session.userId;
+    const targetId = args.userId;
+    // Retrieve Data: "From all users that user follows, get their user info"
+    const rows = await database('follows')
+        .where({'follows.followerId': targetId})
+        .join('users', 'follows.targetId', '=', 'users.userId')
+        .select(
+            'users.userId', 'users.name', 'users.description', 'users.portraitUrl',
+        )
+        .select(function () {
+            this.from('follows')
+                .where({'follows.targetId': userId})
+                .whereRaw('follows.followerId = users.userId', [])
+                .first().count().as('follows');
+        })
+        .select(function () {
+            this.from('follows')
+                .where({'follows.followerId': userId})
+                .whereRaw('follows.targetId = users.userId', [])
+                .first().count().as('following');
+        });
+    // Construct GraphQL graph from SQL rows
+    const follows = rows.map(function (databaseRow) {
+        return {
+            userId: databaseRow.userId,
+            name: databaseRow.name,
+            description: databaseRow.description,
+            portraitUrl: databaseRow.portraitUrl,
+            followers: {
+                follows: databaseRow.follows,
+                following: databaseRow.following,
+            },
+        };
+    });
+    // Return followers data
+    return follows;
 }
 async function followLinkAdd(parent, args, context, info) {
     // Construct parameters

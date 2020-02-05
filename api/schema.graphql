@@ -9,7 +9,8 @@ type Query {
     feedGet(userId: String): Feed!
     userActivityGet(userId: String!): Feed!
     # feedGet(userId: String): Feed!
-    followersGet(userId: String!): [ID!]!
+    followersGet(userId: String!): [User!]!
+    followsGet(userId: String!): [User!]!
 }
 type Mutation {
     userUpdate(name: String, description: String, portrait: String): User!
@@ -37,7 +38,8 @@ type Feed {
     userContexts: [User!]!
 }
 type Followers {
-    count: Int!
+    countFollowers: Int!
+    countFollowing: Int!
     following: Boolean!
     follows: Boolean!
     userIds: [String!]!

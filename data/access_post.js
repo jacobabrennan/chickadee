@@ -10,12 +10,6 @@ import {
 } from './utilities.js';
 
 //------------------------------------------------
-export async function postGet(postId) {
-    return await database('posts')
-        .select('postId', 'authorId', 'text', 'created')
-        .where({'postId': postId})
-        .first();
-}
 export async function postCreate(userNameAuthor, postContent) {
     //
     const postNew = {

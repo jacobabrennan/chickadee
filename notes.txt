@@ -39,7 +39,9 @@ Basic Process:
 
 
 Client Themeing / Branding
-Client styling, structure, & clean-up
++ Client styling, structure, & clean-up:
+    User info
+    Followers / Following lists
 Post Improvements:
 +   reply and quote
     allow posting of other media types, such as video, audio, links, or graphics
@@ -49,15 +51,10 @@ Post Improvements:
 Handle error states in client
 Loading State for:
     Image Upload
-+ Follows:
-    View list of followers in detail
-    View list of following in detail
-    (classes for displaying user details,
-    queries and resolvers for retrieving users)
 Vouching System (trust count?):
     View vouching user
     View vouched users
-Search Function for users, text content, and tags
++ Search Function for users, text content, and tags
 Client side validation of stuff:
     Settings:
         Name
@@ -65,14 +62,19 @@ Client side validation of stuff:
 User Permissions:
     Inter-user viewing
     bro, do you even vouch?
+Cache Issues:
+    Give each portrait photo a new url
 Settings and Authentication:
     Change Password
     email validation
 Likes!?
 Privacy settings
     block lists
+Refactor Data Access Layer
+    Remove database logic (knex) from resolvers
 Generate smaller images automatically, for use beside posts
 Swap in better database
+User Joined Date
 
 Who is allowed to reply? Why allow trolls to make bank by parasitizing users?
 
