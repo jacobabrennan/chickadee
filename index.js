@@ -30,7 +30,6 @@ server.listen(PORT, function () {
 //------------------------------------------------
 server.use('/rsc', express.static('public'));
 server.use('/auth', apiAuth);
-server.use('/data', apiAuth.requireAuthentication);
 graphQLServer.applyMiddleware({app: server, path: '/data'});
 
 //-- Error Handling ------------------------------

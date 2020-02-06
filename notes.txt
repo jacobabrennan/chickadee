@@ -37,14 +37,12 @@ Basic Process:
     component rerenders data
     rinse, repeat
 
-
+Make custom Auth Context hook
+Make Auth "business layer" on resolvers
 Client Themeing / Branding
-+ Client styling, structure, & clean-up:
-    Pad feed bottom
+Client styling, structure, & clean-up:
     Fill out composer a little
-    Remove index_old.js from API
-    Authentication pages
-    Default portrait url
+    + Default portrait url
 Add back arrow to navigate through history
 Project Structure:
     Research industry standard directory structure
@@ -90,6 +88,8 @@ User Joined Date
 
 
 //== Long Term Strategy Thoughts ===============================================
+
+PODS will get me a job
 
 Who is allowed to reply? Why allow trolls to make bank by parasitizing users?
 

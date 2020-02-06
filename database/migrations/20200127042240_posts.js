@@ -12,6 +12,7 @@ const FIELD_POSTID = 'postId';
 const FIELD_AUTHORID = 'authorId';
 const FIELD_CREATED = 'created';
 const FIELD_CONTENT_TEXT = 'text';
+const FIELD_PARENTID = 'parentId';
 const LIMIT_CONTENT_TEXT = 255;
 // Foreign
 const TABLE_USERS = 'users';
@@ -29,6 +30,9 @@ exports.up = function(knex) {
         table.datetime(FIELD_CREATED)
             .notNullable()
             .defaultTo(knex.fn.now());
+        table.integer(FIELD_PARENTID)
+            .references(FIELD_POSTID)
+            .inTable(TABLE_POSTS);
     });
 };
 exports.down = function(knex) {

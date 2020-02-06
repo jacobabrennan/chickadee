@@ -4,6 +4,7 @@
 
 #== Root Queries and Mutations ===================
 type Query {
+    authGet: User
     userGet(userId: String!): User
     postGet(postId: String): Feed!
     feedGet(userId: String): Feed!
@@ -24,8 +25,8 @@ type User {
     userId: ID!
     name: String
     description: String
-    followers: Followers
     portraitUrl: String
+    followers: Followers
 }
 type Post {
     postId: ID!
