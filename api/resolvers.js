@@ -165,13 +165,19 @@ async function postGet(parent, args, context, info) {
 }
 async function postCreate(parent, args, context, info) {
     // NOTE: Look into "batching" multiple SQL queries together
+    // NOTE: this throws on database failures
     // Construct parameters
     const userIdAuthor = context.request.session.userId;
-    const postContent = {
-        text: args.text,
-    };
+    const postId = (await database('posts')
+        .insert({
+            'authorId': userIdAuthor,
+            text: args.text,
+        }))[0];
+    const post = await database('posts')
+        .select('postId', 'authorId', 'text', 'created')
+        .where({postId: postId})
+        .first();
     // Retrieve Data
-    const post = await dataPost.postCreate(userIdAuthor, postContent);
     const author = await database('users')
         .select('userId', 'name', 'portraitUrl')
         .where({'userId': userIdAuthor})
@@ -195,10 +201,18 @@ async function feedGet(parent, args, context, info) {
             'posts.postId', 'posts.authorId', 'posts.text', 'posts.created',
             'users.name', 'users.userId', 'users.portraitUrl',
         );
+    const rows2 = await database('users')
+        .where({'userId': userId})
+        .crossJoin('posts', 'posts.authorId', '=', 'users.userId')
+        .select(
+            'posts.postId', 'posts.authorId', 'posts.text', 'posts.created',
+            'users.name', 'users.userId', 'users.portraitUrl',
+        );
     // Construct return data from retrieved rows
     const postUserIds = new Set()
     const feedData = {posts: [], userContexts: []}
-    rows.forEach(function (row) {
+    let rowsFull = rows.concat(rows2);
+    rowsFull.forEach(function (row) {
         // Reconstruct posts from rows
         feedData.posts.push({
             postId: row.postId,

@@ -10,21 +10,6 @@ import {
 } from './utilities.js';
 
 //------------------------------------------------
-export async function postCreate(userNameAuthor, postContent) {
-    //
-    const postNew = {
-        'authorId': userNameCanonical(userNameAuthor),
-        text: postContent.text,
-    };
-    // Doesn't work with sqlite3
-    // const result = await database('posts')
-    //     .returning(['postId', 'authorId', 'text', 'created'])
-    //     .insert(postNew);
-    const postId = await database('posts').insert(postNew);
-    const result = await postGet(postId[0]);
-    //
-    return result;
-}
 export async function feedGet(userId) {
     const userIdAuthor = userNameCanonical(userId);
     // const posts = await database('posts')

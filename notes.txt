@@ -40,25 +40,37 @@ Basic Process:
 
 Client Themeing / Branding
 + Client styling, structure, & clean-up:
-    User info
-    Followers / Following lists
+    Pad feed bottom
+    Fill out composer a little
+    Remove index_old.js from API
+    Authentication pages
+    Default portrait url
+Add back arrow to navigate through history
+Project Structure:
+    Research industry standard directory structure
+    Move URL/PATH/etc. constants to central file
 Post Improvements:
 +   reply and quote
     allow posting of other media types, such as video, audio, links, or graphics
         other post types, such as replies or quotes
     update feed after successful post
-    tags (hashtags)
+    (hash)tags?
++ Subscriptions
 Handle error states in client
 Loading State for:
     Image Upload
 Vouching System (trust count?):
     View vouching user
     View vouched users
-+ Search Function for users, text content, and tags
-Client side validation of stuff:
+Search Function for users, text content, and tags
++ Client side validation of stuff:
+    Posts:
+        Post length
     Settings:
         Name
         Description
+Server side validation:
+    Post length
 User Permissions:
     Inter-user viewing
     bro, do you even vouch?
@@ -75,6 +87,9 @@ Refactor Data Access Layer
 Generate smaller images automatically, for use beside posts
 Swap in better database
 User Joined Date
+
+
+//== Long Term Strategy Thoughts ===============================================
 
 Who is allowed to reply? Why allow trolls to make bank by parasitizing users?
 
