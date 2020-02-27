@@ -3,7 +3,10 @@
 /*== Create Users Table ========================================================
 
 User:
-    a unique Id: string, alphanumeric, lowercase
+    userId(string): unique, alphanumeric, lowercase
+    name(string): the user's preferred name
+    description(string): a description / bio provided by the user
+    portraitUrl(string): the url of the user's uploaded portrait
 
 */
 

@@ -1,6 +1,12 @@
 
 
-//== Create Users Table ========================================================
+/*== Create Follows Table ======================================================
+
+Follow:
+    followerId(string)
+    targetId(string)
+
+*/
 
 //-- Dependencies --------------------------------
 

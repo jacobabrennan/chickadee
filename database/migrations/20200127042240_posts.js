@@ -1,6 +1,13 @@
 
 
-/*== Create Users Table ========================================================
+/*== Create Posts Table ========================================================
+
+Post:
+    postId(int)
+    authorId(string)
+    text(string): The content of the post, submitted by the user
+    created(datetime)
+    parentId(int): Not currently implemented
 
 */
 

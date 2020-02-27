@@ -1,6 +1,10 @@
 
 
-/*== Create Users Table ========================================================
+/*== Create Credentials Table ==================================================
+
+Credential:
+    userId(string)
+    hash(string)
 
 */
 
