@@ -1,6 +1,12 @@
 
 
-//==============================================================================
+/*== Chickadee Server ==========================================================
+
+This is the point of entry for the Chickadee server. To start the server, run
+this file via node:
+    node index.js
+
+*/
 
 //-- Dependencies --------------------------------
 import express from 'express';
@@ -15,7 +21,7 @@ import graphQLServer from './api/apollo.js';
 const PORT = 7231;
 const SERVER_LISTEN_MESSAGE = `Server listening on port ${PORT}`;
 
-//------------------------------------------------
+//-- Start Server---------------------------------
 const server = express();
 server.use(bodyParser.json());
 server.use(expressSession({
@@ -27,7 +33,7 @@ server.listen(PORT, function () {
     console.log(SERVER_LISTEN_MESSAGE);
 });
 
-//------------------------------------------------
+//-- Mount Routers -------------------------------
 server.use('/rsc', express.static('public'));
 server.use('/auth', apiAuth);
 graphQLServer.applyMiddleware({app: server, path: '/data'});
