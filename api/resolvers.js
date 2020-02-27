@@ -1,16 +1,17 @@
 
 
-//== GraphQL endpoint resolvers ================================================
+/*== GraphQL endpoint resolvers ================================================
 
-/*
-    NOTE: None of this is optimized. The database is hit several times per
-    query. Research how to batch queries.
+This module provides resolvers for GraphQL queries. It is an exploratory work-
+in-progress. This code is not secure or optimized, and does not follow best
+practices. It is intended to be a sandbox to test ideas and implementation
+strategies until such a time as the UI is finalized.
 
-    Note: Ok, I've basically given up on writing good SQL queries. Someone else
-    can fix this up later. Time to put my brain on vacation and write some
-    queries.
+NOTE: None of this is optimized. The database is hit several times per query.
+Research how to batch queries.
 
-    NOTE: Thrown errors in resolvers are currently sent to client. Don't do this
+NOTE: Thrown errors in resolvers are currently sent to client. Don't do this
+
 */
 
 //-- Dependencies --------------------------------

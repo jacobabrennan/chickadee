@@ -27,5 +27,5 @@ export default {
         // response.status(error.statusCode);
         // response.end();
     },
-    httpError: httpError
+    // httpError: httpError
 };

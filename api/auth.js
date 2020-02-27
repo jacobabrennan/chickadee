@@ -1,19 +1,20 @@
 
 
-//==============================================================================
+/*== Authentication Router =====================================================
 
-//-- Notes ---------------------------------------
-/*
+This module exports an express router with handles all authentication requests.
+
+NOTE:
 The auth api responds to most user errors with http status code 200 (ok). This
 is because the communication between the user and the app is working correctly.
 Non-application errors (in logic, database errors, etc.) are passed to upstream
 handlers.
+
 */
 
 //-- Dependencies --------------------------------
 import express from 'express';
 import * as dataAuth from '../data/access_auth.js';
-// import errors from '../errors.js';
 
 //-- Project Constants ---------------------------
 // const URL_USERID = '/userid';
@@ -25,19 +26,10 @@ const ERROR_AUTH_INVALID = 'Invalid Login: The user name or password were incorr
 const ERROR_AUTH_NOLOGIN = 'Cannot Log Out: You are not currently logged in'
 // const ERROR_AUTH_UNAUTHENTICATED = 'Not Authenticated: user not logged in';
 
-//------------------------------------------------
+//-- Export Router -------------------------------
 const router = express.Router();
 export default router;
 
-//-- Authentication Check Middleware -------------
-// router.requireAuthentication = function (request, response, next) {
-//     const userId = request.session.userId;
-//     if(!userId) {
-//         // throw ERROR_AUTH_UNAUTHENTICATED;
-//         throw new errors.httpError(403);
-//     }
-//     next();
-// }
 
 //== Route Handlers ============================================================
 
