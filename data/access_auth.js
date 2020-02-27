@@ -1,6 +1,11 @@
 
 
-//==============================================================================
+/*== Authentication Data Access ================================================
+
+This module provides data access for registration and login. In the future it
+will also provide a means to change a user's password.
+
+*/
 
 //-- Dependencies --------------------------------
 import bcrypt from 'bcryptjs';
@@ -15,7 +20,7 @@ const SALT_ROUNDS = 10;
 export const ERROR_USERNAME_COLLISION = 'Invalid User Name: already taken';
 export const ERROR_PASSWORD_BAD = 'Invalid Password: password missing';
 
-//------------------------------------------------
+//-- Registration --------------------------------
 export async function authRegister(userNameRequested, passwordRaw, emailRaw) {
     // Cancel if password is bad (absent)
     if(!passwordRaw) { throw ERROR_PASSWORD_BAD;}
@@ -40,6 +45,8 @@ export async function authRegister(userNameRequested, passwordRaw, emailRaw) {
     // Return the new user's ID
     return userId;
 }
+
+//-- Change Password -----------------------------
 // export async function credentialAssociate(userNameRaw, passwordRaw) {
 //     // Calculate userId for given name; this should throw, as the user should
 //         // already exist by the time this function is called.
@@ -50,6 +57,8 @@ export async function authRegister(userNameRequested, passwordRaw, emailRaw) {
 //     // Return actual userId
 //     return userId;
 // }
+
+//-- Login (check password) ----------------------
 export async function credentialValidate(userNameRaw, passwordRaw) {
     // Calculate userId for requested name, cancel on bad usernames
     let userId;
