@@ -13,10 +13,10 @@ handlers.
 //-- Dependencies --------------------------------
 import express from 'express';
 import * as dataAuth from '../data/access_auth.js';
-import errors from '../errors.js';
+// import errors from '../errors.js';
 
 //-- Project Constants ---------------------------
-const URL_USERID = '/userid';
+// const URL_USERID = '/userid';
 const URL_REGISTRATION = '/register';
 const URL_LOGIN = '/login';
 const URL_LOGOUT = '/logout';
@@ -30,29 +30,16 @@ const router = express.Router();
 export default router;
 
 //-- Authentication Check Middleware -------------
-router.requireAuthentication = function (request, response, next) {
-    const userId = request.session.userId;
-    if(!userId) {
-        // throw ERROR_AUTH_UNAUTHENTICATED;
-        throw new errors.httpError(403);
-    }
-    next();
-}
+// router.requireAuthentication = function (request, response, next) {
+//     const userId = request.session.userId;
+//     if(!userId) {
+//         // throw ERROR_AUTH_UNAUTHENTICATED;
+//         throw new errors.httpError(403);
+//     }
+//     next();
+// }
 
 //== Route Handlers ============================================================
-
-//-- User Id (am I logged in?) -------------------
-router.get(URL_USERID, async function (request, response, next) {
-    // Retrieve userId from session
-    const userId = request.session.userId;
-    // Attach userId if logged in
-    const responseData = {};
-    if(userId) {
-        responseData.userId = userId;
-    }
-    // Send response
-    response.json(responseData);
-});
 
 //-- Registration --------------------------------
 router.post(URL_REGISTRATION, async function (request, response, next) {

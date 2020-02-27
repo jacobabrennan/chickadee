@@ -62,21 +62,21 @@ async function authGet(parent, args, context, info) {
         return null;
     }
     const userId = context.request.session.userId;
-    //
-    const row = await database('users')
-        .where({'userId': userId})
-        .first()
-        .select('userId', 'name', 'description', 'portraitUrl')
-        .select(function () {
-            this.from('follows')
-                .where({'follows.targetId': userId})
-                .count().as('countFollowers');
-        })
-        .select(function () {
-            this.from('follows')
-                .where({'follows.followerId': userId})
-                .count().as('countFollowing');
-        });
+//
+const row = await database('users')
+    .where({'userId': userId})
+    .first()
+    .select('userId', 'name', 'description', 'portraitUrl')
+    .select(function () {
+        this.from('follows')
+            .where({'follows.targetId': userId})
+            .count().as('countFollowers');
+    })
+    .select(function () {
+        this.from('follows')
+            .where({'follows.followerId': userId})
+            .count().as('countFollowing');
+    });
     //
     const userData = {
             userId: row.userId,

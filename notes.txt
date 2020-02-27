@@ -37,12 +37,11 @@ Basic Process:
     component rerenders data
     rinse, repeat
 
-Make custom Auth Context hook
+Client styling, structure, & clean-up:
+    Controlled form... controls
+    Generic layout classes (boxes for posts, user details, etc.)
 Make Auth "business layer" on resolvers
 Client Themeing / Branding
-Client styling, structure, & clean-up:
-    Fill out composer a little
-    + Default portrait url
 Add back arrow to navigate through history
 Project Structure:
     Research industry standard directory structure
@@ -72,6 +71,7 @@ Server side validation:
 User Permissions:
     Inter-user viewing
     bro, do you even vouch?
+Option to delete portrait
 Cache Issues:
     Give each portrait photo a new url
 Settings and Authentication:
