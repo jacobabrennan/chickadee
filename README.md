@@ -10,4 +10,10 @@ Chickadee is in the early stages of development. The model is still being design
 
 ## Setup
 
-A development server can be run by cloning the repo locally, and then starting the server in node via the command `node index.js`. In order to login and view the website, you will also need to be running the [Chickadee-Client](https://github.com/jacobabrennan/chickadee-client).
+A development server can be run by cloning the repo locally, installing dependencies, and starting the server in node:
+```
+git clone git@github.com:jacobabrennan/chickadee
+npm install
+node index.js
+```
+In order to login and view the website, you will also need to be running the [Chickadee-Client](https://github.com/jacobabrennan/chickadee-client).
